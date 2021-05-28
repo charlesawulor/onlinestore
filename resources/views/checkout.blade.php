@@ -1,8 +1,6 @@
 
 @extends('layouts.app1')
 
-<script src="https://js.stripe.com/v3/"></script>
-
 @section('content')  
 		
         <div class="breadcrumb-area bg-gray-4 breadcrumb-padding-1">
@@ -66,18 +64,12 @@
                         </form>
                     </div>
                 </div>
-
-
                 <div class="checkout-wrap pt-30">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="billing-info-wrap">
                                 <h3>Billing Details</h3>
                                 <div class="row">
-
-                                  <form>
-
-
                                     <div class="col-lg-6 col-md-6">
                                         <div class="billing-info mb-20">
                                             <label>First Name <abbr class="required" title="required">*</abbr></label>
@@ -146,26 +138,15 @@
                                             <input type="text">
                                         </div>
                                     </div>
-
-                                    <div class="form-group">
-
-                                         <div id="card-element">
-                                         <!-- Elements will create input elements here -->
-                                         </div>
-
-                                         <!-- We'll put the error messages in this element -->
-                                         <div id="card-errors" role="alert"></div>
-
-                                    </div>
-
-
-
-                                  </form>
-
-
-
                                 </div>
-                            
+                                <div class="checkout-account mb-25">
+                                    <input class="checkout-toggle2" type="checkbox">
+                                    <span>Create an account?</span>
+                                </div>
+                                <div class="checkout-account-toggle open-toggle2 mb-30">
+                                    <label>Email Address</label>
+                                    <input placeholder="Password" type="password">
+                                </div>
                                 <div class="checkout-account mt-25">
                                     <input class="checkout-toggle" type="checkbox">
                                     <span>Ship to a different address?</span>
@@ -242,12 +223,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+                                <div class="additional-info-wrap">
+                                    <label>Order notes</label>
+                                    <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
+                                </div>
                             </div>
                         </div>
-
-
-
                         <div class="col-lg-5">
                             <div class="your-order-area">
                                 <h3>Your order</h3>
@@ -341,59 +322,3 @@
         </div>
 
         @endsection
-
-
-        <script>
-  (function(){
-
-// Set your publishable key: remember to change this to your live publishable key in production
-// See your keys here: https://dashboard.stripe.com/apikeys
-var stripe = Stripe('pk_test_51Io4hXACLwpJgLfCP1iM76xlP9AucwIVzSHSiWgHhoSLdEHyewYIEZv7io7OyDoIiR0PZtOfJJVgz4StvWoIadxl00J9rpgT4v');
-var elements = stripe.elements();
-
-// Set up Stripe.js and Elements to use in checkout form
-var elements = stripe.elements();
-var style = {
-  base: {
-    color: "#32325d",
-  }
-};
-
-var card = elements.create("card", { style: style });
-card.mount("#card-element"); 
-
-
-var form = document.getElementById('payment-form');
-
-form.addEventListener('submit', function(ev) {
-  ev.preventDefault();
-  // If the client secret was rendered server-side as a data-secret attribute
-  // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
-  stripe.confirmCardPayment(clientSecret, {
-    payment_method: {
-      card: card,
-      billing_details: {
-        name: 'Jenny Rosen'
-      }
-    }
-  }).then(function(result) {
-    if (result.error) {
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(result.error.message);
-    } else {
-      // The payment has been processed!
-      if (result.paymentIntent.status === 'succeeded') {
-        // Show a success message to your customer
-        // There's a risk of the customer closing the window before callback
-        // execution. Set up a webhook or plugin to listen for the
-        // payment_intent.succeeded event that handles any business critical
-        // post-payment actions.
-      }
-    }
-  });
-});
-
-})();
-
-
-</script>
